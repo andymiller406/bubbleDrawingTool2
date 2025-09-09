@@ -1,0 +1,138 @@
+/* Custom styles for Bubble Drawing Tool */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-lg {
+    padding: 12px 30px;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.progress-step {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    color: white;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* File upload styling */
+.form-control[type="file"] {
+    padding: 10px;
+}
+
+/* Radio button styling */
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+

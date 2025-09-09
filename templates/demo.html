@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}Demo - Bubble Drawing Tool{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-play me-2"></i>
+                    Try the Demo
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Demo Mode:</strong> This demo uses a sample technical drawing to show how the bubble drawing tool works. Click the button below to process the sample drawing and see the results.
+                </div>
+
+                <div class="text-center mb-4">
+                    <button id="demoBtn" class="btn btn-success btn-lg">
+                        <i class="fas fa-play me-2"></i>
+                        Run Demo
+                    </button>
+                </div>
+
+                <!-- Progress section -->
+                <div id="demoProgress" class="mt-4" style="display: none;">
+                    <div class="alert alert-info">
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-border spinner-border-sm me-3" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div>
+                                <strong>Processing demo drawing...</strong>
+                                <div class="small">Generating bubbles for sample technical drawing.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results section -->
+                <div id="demoResults" class="mt-4" style="display: none;">
+                    <div class="alert alert-success">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Demo Complete!
+                        </h5>
+                        <p class="mb-3">The sample drawing has been processed with numbered dimension bubbles.</p>
+                        <a href="#" id="demoDownloadLink" class="btn btn-success">
+                            <i class="fas fa-download me-2"></i>
+                            Download Demo Results
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Error section -->
+                <div id="demoError" class="mt-4" style="display: none;">
+                    <div class="alert alert-danger">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Demo Error
+                        </h5>
+                        <p id="demoErrorMessage" class="mb-0"></p>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h5>What the Demo Shows</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Automatic dimension detection
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Numbered bubble generation
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Smart bubble placement
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                High-quality output images
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                PDF to image conversion
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Ready-to-use results
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-3">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Note:</strong> This is a demonstration version. The automatic dimension detection may not work perfectly on all types of technical drawings. For production use, manual verification and adjustment of bubble positions may be needed.
+                </div>
+            </div>
+        </div>
+
+        <!-- How it works section -->
+        <div class="card shadow mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-cogs me-2"></i>
+                    How It Works
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                            <span class="fw-bold">1</span>
+                        </div>
+                        <h6>PDF Upload</h6>
+                        <small class="text-muted">Upload your technical drawing in PDF format</small>
+                    </div>
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                            <span class="fw-bold">2</span>
+                        </div>
+                        <h6>AI Analysis</h6>
+                        <small class="text-muted">Computer vision algorithms detect dimensions and text</small>
+                    </div>
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                            <span class="fw-bold">3</span>
+                        </div>
+                        <h6>Bubble Generation</h6>
+                        <small class="text-muted">Numbered bubbles are placed next to each dimension</small>
+                    </div>
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                            <span class="fw-bold">4</span>
+                        </div>
+                        <h6>Download Results</h6>
+                        <small class="text-muted">Get your annotated drawing as high-quality images</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('demoBtn').addEventListener('click', function() {
+    const demoBtn = document.getElementById('demoBtn');
+    const demoProgress = document.getElementById('demoProgress');
+    const demoResults = document.getElementById('demoResults');
+    const demoError = document.getElementById('demoError');
+    
+    // Reset sections
+    demoProgress.style.display = 'none';
+    demoResults.style.display = 'none';
+    demoError.style.display = 'none';
+    
+    // Show progress
+    demoBtn.disabled = true;
+    demoProgress.style.display = 'block';
+    
+    fetch('/api/demo/process')
+    .then(response => response.json())
+    .then(data => {
+        demoProgress.style.display = 'none';
+        demoBtn.disabled = false;
+        
+        if (data.success) {
+            document.getElementById('demoDownloadLink').href = data.download_url;
+            demoResults.style.display = 'block';
+        } else {
+            document.getElementById('demoErrorMessage').textContent = data.error || 'Unknown error occurred';
+            demoError.style.display = 'block';
+        }
+    })
+    .catch(error => {
+        demoProgress.style.display = 'none';
+        demoBtn.disabled = false;
+        document.getElementById('demoErrorMessage').textContent = 'Network error: ' + error.message;
+        demoError.style.display = 'block';
+    });
+});
+</script>
+{% endblock %}
+

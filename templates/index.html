@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}Upload PDF - Bubble Drawing Tool{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-file-pdf me-2"></i>
+                    Upload Technical Drawing
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>How it works:</strong> Upload a PDF technical drawing and our AI will automatically detect dimensions and add numbered bubbles for easy reference.
+                </div>
+
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fileInput" class="form-label">Select PDF File</label>
+                        <input type="file" class="form-control" id="fileInput" name="file" accept=".pdf" required>
+                        <div class="form-text">Maximum file size: 16MB. Only PDF files are supported.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Processing Mode</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="mode" id="autoMode" value="auto" checked>
+                            <label class="form-check-label" for="autoMode">
+                                <strong>Automatic Detection</strong>
+                                <small class="text-muted d-block">AI attempts to automatically detect dimensions (experimental)</small>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="mode" id="manualMode" value="manual">
+                            <label class="form-check-label" for="manualMode">
+                                <strong>Manual Mode</strong>
+                                <small class="text-muted d-block">Places bubbles at predefined locations for demonstration</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100" id="submitBtn">
+                        <i class="fas fa-magic me-2"></i>
+                        Process Drawing
+                    </button>
+                </form>
+
+                <!-- Progress section -->
+                <div id="progressSection" class="mt-4" style="display: none;">
+                    <div class="alert alert-info">
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-border spinner-border-sm me-3" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div>
+                                <strong>Processing your drawing...</strong>
+                                <div class="small">This may take a few moments depending on the complexity of your drawing.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results section -->
+                <div id="resultsSection" class="mt-4" style="display: none;">
+                    <div class="alert alert-success">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Processing Complete!
+                        </h5>
+                        <p class="mb-3">Your technical drawing has been processed and annotated with dimension bubbles.</p>
+                        <a href="#" id="downloadLink" class="btn btn-success">
+                            <i class="fas fa-download me-2"></i>
+                            Download Results
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Error section -->
+                <div id="errorSection" class="mt-4" style="display: none;">
+                    <div class="alert alert-danger">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Processing Error
+                        </h5>
+                        <p id="errorMessage" class="mb-0"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features section -->
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-eye fa-lg"></i>
+                    </div>
+                    <h5>AI Detection</h5>
+                    <p class="text-muted">Advanced computer vision algorithms automatically identify dimensions in your technical drawings.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-circle-notch fa-lg"></i>
+                    </div>
+                    <h5>Numbered Bubbles</h5>
+                    <p class="text-muted">Each detected dimension gets a numbered bubble for easy reference in quality control and inspection.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-download fa-lg"></i>
+                    </div>
+                    <h5>Easy Export</h5>
+                    <p class="text-muted">Download your annotated drawings as high-quality PNG images ready for use in documentation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitBtn = document.getElementById('submitBtn');
+    const progressSection = document.getElementById('progressSection');
+    const resultsSection = document.getElementById('resultsSection');
+    const errorSection = document.getElementById('errorSection');
+    
+    // Reset sections
+    progressSection.style.display = 'none';
+    resultsSection.style.display = 'none';
+    errorSection.style.display = 'none';
+    
+    // Show progress
+    submitBtn.disabled = true;
+    progressSection.style.display = 'block';
+    
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        progressSection.style.display = 'none';
+        submitBtn.disabled = false;
+        
+        if (data.success) {
+            document.getElementById('downloadLink').href = '/download/' + data.job_id;
+            resultsSection.style.display = 'block';
+        } else {
+            document.getElementById('errorMessage').textContent = data.error || 'Unknown error occurred';
+            errorSection.style.display = 'block';
+        }
+    })
+    .catch(error => {
+        progressSection.style.display = 'none';
+        submitBtn.disabled = false;
+        document.getElementById('errorMessage').textContent = 'Network error: ' + error.message;
+        errorSection.style.display = 'block';
+    });
+});
+</script>
+{% endblock %}
+
